@@ -76,16 +76,20 @@ if __name__ == '__main__':
       
         if tag_list != '':
           # search amazon product API 
-          amzn_books = a.item_search('Books', Keywords=tag_list)
+          try:
+            amzn_books = a.item_search('Books', Keywords=tag_list)
 
-          if amzn_books:
-            for book in amzn_books:
-              t.statuses.update(
-                status='Hey there @'+tweeter+'!! Try "%s" by %s!' % 
+            if book in amzn_books:
+              for book in amzn_books:
+                t.statuses.update(
+                  status='Hey there @'+tweeter+'!! Try "%s" by %s!' % 
                                                   (book.ItemAttributes.Title,
                                                    book.ItemAttributes.Author))
-              # we only want the first result
-              break
+                # we only want the first result
+                break
+          except:
+            t.statuses.update(
+                  status="Hey there @"+tweeter+"!! We coudn't find any matches for those hashtags. Sorry!")
 
       latest_id = tweet['id']
 
