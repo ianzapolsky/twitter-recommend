@@ -7,8 +7,8 @@
 
 import os
 import time
-from twitter import Twitter, OAuth, TwitterHTTPError
 from amazonproduct import API
+from twitter import Twitter, OAuth, TwitterHTTPError
 
 # screen name of the twitter account this bot will be operating under
 BOT_NAME = 'ianzapolsky'
@@ -27,8 +27,7 @@ amzn_cfg = {
   'locale': 'us'
 }
 
-# return data for all tweets mentioning @BOT_NAME that have been created
-# since latest_id
+# return all tweets mentioning @BOT_NAME that have been created since latest_id
 def fetch_unseen_mentions(latest_id):
   return t.search.tweets(q='@'+BOT_NAME, result_type='recent', since_id=latest_id)['statuses']
 
@@ -61,9 +60,10 @@ if __name__ == '__main__':
 
     print 'waking up!'
     results = fetch_unseen_mentions(latest_id)
+    count = 0
   
     if not results:
-      print 'no new tweets'
+      print 'no new tweets.'
     else: 
       for tweet in reversed(results):
 
@@ -78,20 +78,22 @@ if __name__ == '__main__':
             amzn_books = a.item_search('Books', Keywords=tag_list)
 
             for book in amzn_books:
-              t.statuses.update(
-                status='Hey there @'+tweeter+'!! Try "%s" by %s!' % 
-                                                  (book.ItemAttributes.Title,
-                                                   book.ItemAttributes.Author))
-              # we only want the first result
-              break
+              msg = 'Hey @'+tweeter+'! Try "%s" by %s!' % (book.ItemAttributes.Title,
+                                                           book.ItemAttributes.Author))
+              if len(msg) <= 140:  
+                t.statuses.update(status=msg)
+                count += 1
+                break
           except:
             t.statuses.update(
-              status="Hey there @"+tweeter+"!! We coudn't find any matches for those hashtags. Sorry!")
+              status="Hey @"+tweeter+"! We coudn't find any matches for those hashtags. Sorry!")
+            count += 1
 
       latest_id = tweet['id']
 
     # sleep 30 seconds at the end of each loop to avoid going over API 
     # restrictions (180 per 15-minute-window in 1.1)
+    print 'replied to '+str(count)+' tweets!'
     print 'going to sleep...'
     time.sleep(30)
 
