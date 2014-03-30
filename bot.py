@@ -61,17 +61,15 @@ if __name__ == '__main__':
 
     print 'waking up!'
     results = fetch_unseen_mentions(latest_id)
-    count = 0
   
     if not results:
       print 'no new tweets'
     else: 
       for tweet in reversed(results):
 
-        count += 1
-        tweeter = tweet['user']['screen_name']
+        tweeter  = tweet['user']['screen_name']
         hashtags = tweet['entities']['hashtags']
-        text = tweet['text']
+        text     = tweet['text']
         tag_list = tags_to_string(hashtags)
       
         if tag_list != '':
