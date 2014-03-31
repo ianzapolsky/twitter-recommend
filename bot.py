@@ -79,7 +79,7 @@ if __name__ == '__main__':
 
             for book in amzn_books:
               msg = 'Hey @'+tweeter+'! Try "%s" by %s!' % (book.ItemAttributes.Title,
-                                                           book.ItemAttributes.Author))
+                                                           book.ItemAttributes.Author)
               if len(msg) <= 140:  
                 t.statuses.update(status=msg)
                 count += 1
