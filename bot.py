@@ -95,7 +95,7 @@ if __name__ == '__main__':
     # restrictions (180 per 15-minute-window in 1.1)
     print 'replied to '+str(count)+' tweets!'
     print 'going to sleep...'
-    time.sleep(30)
+    time.sleep(60)
 
 
 
