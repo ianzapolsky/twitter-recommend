@@ -91,7 +91,7 @@ if __name__ == '__main__':
 
       latest_id = tweet['id']
 
-    # sleep 30 seconds at the end of each loop to avoid going over API 
+    # sleep 60 seconds at the end of each loop to avoid going over API 
     # restrictions (180 per 15-minute-window in 1.1)
     print 'replied to '+str(count)+' tweets!'
     print 'going to sleep...'
